@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ProdutoDAO {
 
-    // Caminho onde o banco de dados será salvo no seu computador
+    // Caminho onde o banco de dados será salvo no meu computador
     private static final String URL = "jdbc:h2:./data/estoque_db";
     private static final String USER = "sa";
     private static final String PASS = "";

@@ -7,7 +7,7 @@ public class Produto {
     private int quantidadeAtual;
     private int quantidadeMinima;
 
-    // Construtor vazio (necessário para o banco de dados futuramente)
+    // Construtor vazio
     public Produto() {
     }
 
@@ -24,7 +24,7 @@ public class Produto {
         return this.quantidadeAtual <= this.quantidadeMinima;
     }
 
-    // --- Getters e Setters (Para acessar as variáveis privadas) ---
+    // --- Getters e Setters  ---
 
     public int getId() {
         return id;
