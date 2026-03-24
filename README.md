@@ -24,3 +24,6 @@ Sistema de controle de estoque simplificado desenvolvido para microempreendedore
    ```bash
    mvn compile
    mvn exec:java -Dexec.mainClass="com.estoque.ui.Main"
+
+## Interface do Sistema 
+![Interface do Sistema](screenshots/gui_estoque.png)
