@@ -1,7 +1,6 @@
 # Estoque Ágil MEI
 
-![Build Status]
-(https://github.com/dudamarquesst/estoque-agil-mei/actions/workflows/ci.yml/badge.svg)
+![Build Status](https://github.com/dudamarquesst/estoque-agil-mei/actions/workflows/ci.yml/badge.svg)
 
 Sistema de controle de estoque simplificado desenvolvido para microempreendedores que precisam gerenciar insumos e receber alertas de reposição.
 
