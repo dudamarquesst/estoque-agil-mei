@@ -18,12 +18,15 @@ Sistema de controle de estoque simplificado desenvolvido para microempreendedore
 - Persistência em arquivo local (os dados não somem ao fechar).
 
 ## Como Rodar o Projeto
-1. Clone o repositório.
+1. Clone o repositório:
+    ```bash
+   https://github.com/dudamarquesst/estoque-agil-mei.git
 2. Certifique-se de ter o Java 17 instalado.
+   
 3. No terminal, execute:
    ```bash
-   mvn compile
-   mvn exec:java -Dexec.mainClass="com.estoque.ui.Main"
+   .\mvnw compile
+   .\mvnw exec:java "-Dexec.mainClass=com.estoque.ui.Main"
 
 ## Interface do Sistema 
 ![Interface do Sistema](screenshots/gui_estoque.png)
