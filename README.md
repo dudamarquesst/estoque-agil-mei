@@ -30,3 +30,6 @@ Sistema de controle de estoque simplificado desenvolvido para microempreendedore
 
 ## Interface do Sistema 
 ![Interface do Sistema](screenshots/gui_estoque.png)
+
+## Novas Funcionalidades
+Integração ViaCEP: Agora o sistema realiza a busca automática de endereços (Logradouro, Bairro e Cidade) ao informar o CEP no cadastro de fornecedores/produtos.
