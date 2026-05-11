@@ -2,6 +2,7 @@ package com.estoque.ui;
 
 import com.estoque.model.Produto;
 import com.estoque.repository.ProdutoDAO;
+import com.estoque.service.ViaCepService;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -114,22 +115,71 @@ public class EstoqueGUI extends JFrame {
     }
 
     private void mostrarFormularioCadastro() {
+        // Campos originais
         JTextField nomeField = new JTextField();
         JTextField qtdField = new JTextField();
         JTextField minField = new JTextField();
 
-        Object[] mensagem = { "Nome do Insumo:", nomeField, "Quantidade em Estoque:", qtdField, "Quantidade Mínima:", minField };
+        // --- NOVOS CAMPOS PARA O PASSO 3 (INTEGRAÇÃO API) ---
+        JTextField cepField = new JTextField();
+        JTextField ruaField = new JTextField();
+        JTextField bairroField = new JTextField();
+        JTextField cidadeField = new JTextField();
+        JButton btnBuscarCep = new JButton("Buscar CEP");
 
-        int opcao = JOptionPane.showConfirmDialog(this, mensagem, "Cadastrar Produto", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        // Lógica de busca da API ViaCEP
+        btnBuscarCep.addActionListener(e -> {
+            String cep = cepField.getText().trim();
+            if (cep.length() == 8) {
+                try {
+                    ViaCepService service = new ViaCepService();
+                    String[] endereco = service.buscarEndereco(cep);
+
+                    if (endereco != null) {
+                        ruaField.setText(endereco[0]); // Logradouro
+                        bairroField.setText(endereco[1]); // Bairro
+                        cidadeField.setText(endereco[2]); // Localidade
+                    } else {
+                        JOptionPane.showMessageDialog(this, "CEP não encontrado.");
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Erro ao buscar CEP: " + ex.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Informe um CEP válido com 8 dígitos.");
+            }
+        });
+
+        // Organizando os campos na mensagem do JOptionPane
+        Object[] mensagem = {
+                "Nome do Insumo:", nomeField,
+                "Quantidade em Estoque:", qtdField,
+                "Quantidade Mínima:", minField,
+                "--- Dados do Fornecedor ---",
+                "CEP (8 dígitos):", cepField,
+                btnBuscarCep,
+                "Rua:", ruaField,
+                "Bairro:", bairroField,
+                "Cidade:", cidadeField
+        };
+
+        int opcao = JOptionPane.showConfirmDialog(this, mensagem, "Cadastrar Produto e Fornecedor", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (opcao == JOptionPane.OK_OPTION) {
             try {
-                if(nomeField.getText().isEmpty()) throw new Exception();
+                if (nomeField.getText().isEmpty() || cepField.getText().isEmpty()) {
+                    throw new Exception("Campos obrigatórios vazios.");
+                }
 
+                // Aqui você continua salvando o produto
                 dao.salvar(new Produto(0, nomeField.getText(), Integer.parseInt(qtdField.getText()), Integer.parseInt(minField.getText())));
+
+                // DICA: Em um sistema real, você salvaria os dados do fornecedor (ruaField, etc) no banco também.
+
                 carregarDados();
+                JOptionPane.showMessageDialog(this, "Produto e Fornecedor cadastrados com sucesso!");
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Erro: Preencha todos os campos corretamente.");
+                JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage());
             }
         }
     }
