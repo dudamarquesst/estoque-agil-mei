@@ -76,4 +76,20 @@ public class ProdutoDAO {
         }
         return produtos;
     }
+
+    public void atualizar(Produto produto) {
+        String sql = "UPDATE produtos SET nome = ?, " +
+                    "quantidade_atual = ?, quantidade_minima = ? " +
+                    "WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, produto.getNome());
+        pstmt.setInt(2, produto.getQuantidadeAtual());
+        pstmt.setInt(3, produto.getQuantidadeMinima());
+        pstmt.setInt(4, produto.getId());
+        pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
