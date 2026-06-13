@@ -12,22 +12,26 @@ import java.util.List;
 
 public class ProdutoDAO {
 
-    // Caminho onde o banco de dados será salvo no meu computador
-    private static final String URL = "jdbc:h2:./data/estoque_db";
-    private static final String USER = "sa";
-    private static final String PASS = "";
+    private static final String URL = System.getenv("DB_URL") != null 
+        ? System.getenv("DB_URL") 
+        : "jdbc:postgresql://db.mhfdfvcvigvigpawpxso.supabase.co:5432/postgres";
+    private static final String USER = System.getenv("DB_USER") != null 
+        ? System.getenv("DB_USER") 
+        : "postgres";
+    private static final String PASS = System.getenv("DB_PASS") != null 
+        ? System.getenv("DB_PASS") 
+        : "";
 
     public ProdutoDAO() {
         criarTabela();
     }
 
-    // Cria a tabela automaticamente se ela não existir
     private void criarTabela() {
         String sql = "CREATE TABLE IF NOT EXISTS produtos (" +
-                "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                "id SERIAL PRIMARY KEY, " +
                 "nome VARCHAR(255), " +
-                "quantidadeAtual INT, " +
-                "quantidadeMinima INT)";
+                "quantidade_atual INT, " +
+                "quantidade_minima INT)";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
@@ -37,9 +41,8 @@ public class ProdutoDAO {
         }
     }
 
-    // Salva um produto no banco
     public void salvar(Produto produto) {
-        String sql = "INSERT INTO produtos (nome, quantidadeAtual, quantidadeMinima) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO produtos (nome, quantidade_atual, quantidade_minima) VALUES (?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -52,7 +55,6 @@ public class ProdutoDAO {
         }
     }
 
-    // Lista todos os produtos
     public List<Produto> listarTodos() {
         List<Produto> produtos = new ArrayList<>();
         String sql = "SELECT * FROM produtos";
@@ -65,8 +67,8 @@ public class ProdutoDAO {
                 Produto p = new Produto();
                 p.setId(rs.getInt("id"));
                 p.setNome(rs.getString("nome"));
-                p.setQuantidadeAtual(rs.getInt("quantidadeAtual"));
-                p.setQuantidadeMinima(rs.getInt("quantidadeMinima"));
+                p.setQuantidadeAtual(rs.getInt("quantidade_atual"));
+                p.setQuantidadeMinima(rs.getInt("quantidade_minima"));
                 produtos.add(p);
             }
         } catch (SQLException e) {
