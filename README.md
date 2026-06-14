@@ -19,6 +19,8 @@ Conforme as diretrizes do projeto, por se tratar de uma aplicação **Java Deskt
 - **GitHub Actions** (Integração Contínua)
 - **Checkstyle** (Análise estática de código)
 - **API ViaCEP** (Integração de endereços)
+- **PostgreSQL** (Banco de dados em nuvem via Supabase)
+- **Supabase** (DBaaS — Database as a Service)
 
 ## Funcionalidades
 - Cadastro de produtos com ID, Nome, Quantidade Atual e Mínima.
@@ -48,3 +50,16 @@ Conforme as diretrizes do projeto, por se tratar de uma aplicação **Java Deskt
 ## Novas Funcionalidades
 
 Integração ViaCEP: Agora o sistema realiza a busca automática de endereços (Logradouro, Bairro e Cidade) ao informar o CEP no cadastro de fornecedores/produtos.
+
+## Banco de Dados
+O sistema utiliza PostgreSQL hospedado no Supabase (nuvem).
+As credenciais de acesso são gerenciadas via variáveis de ambiente
+e GitHub Secrets, garantindo segurança das informações sensíveis.
+
+## Equipe
+| Integrante | GitHub |
+|------------|--------|
+| Duda Marques | @dudamarquesst |
+| Murilo | @jorgemuriloceub |
+| Lucas Gabriel | @LucasGabrielPaes |
+| Miguel | @filemoura |
