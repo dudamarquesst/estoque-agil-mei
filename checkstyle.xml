@@ -6,15 +6,8 @@
 <module name="Checker">
     <module name="NewlineAtEndOfFile"/>
 
-    <module name="FileTabCharacter"/>
-
     <module name="TreeWalker">
-        <module name="PackageName"/>
-        <module name="TypeName"/> <module name="MethodName"/> <module name="MemberName"/> <module name="ParameterName"/>
-        <module name="LocalVariableName"/>
-
         <module name="AvoidStarImport"/>
-
         <module name="LeftCurly"/>
         <module name="RightCurly"/>
     </module>
