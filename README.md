@@ -4,62 +4,63 @@
 
 Sistema de controle de estoque simplificado desenvolvido para microempreendedores que precisam gerenciar insumos e receber alertas de reposição.
 
-## Deploy e Execução
-Conforme as diretrizes do projeto, por se tratar de uma aplicação **Java Desktop (GUI)**, o deploy é baseado na geração do artefato executável:
+## Deploy
 
-1.  **Tipo de Deploy:** Arquivo executável (`.jar`).
-2.  **Como gerar:** No terminal, utilize o comando `mvn package` para gerar o arquivo na pasta `/target`.
-3.  **Link da Aplicação:** O código-fonte estável e a pipeline de CI encontram-se na branch `main` deste repositório.
+Aplicação disponível em: **https://estoque-agil-mei.onrender.com**
 
-## Tecnologias Utilizadas
-- **Java 21**
+## Equipe
+
+| Integrante | GitHub |
+|------------|--------|
+| Duda Marques | [@dudamarquesst](https://github.com/dudamarquesst) |
+| Murilo | [@jorgemuriloceub](https://github.com/jorgemuriloceub) |
+| Lucas Gabriel | [@LucasGabrielPaes](https://github.com/LucasGabrielPaes) |
+| Miguel | [@filemoura](https://github.com/filemoura) |
+
+## Banco de Dados
+
+O sistema utiliza **PostgreSQL hospedado no Render** (DBaaS gratuito).
+As credenciais de acesso são gerenciadas via variáveis de ambiente e GitHub Secrets, garantindo segurança das informações sensíveis.
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Java 17**
+- **Spring Boot** (Framework web)
+- **Thymeleaf** (Template engine)
 - **Maven** (Gerenciamento de dependências)
-- **H2 Database** (Persistência de dados local)
+- **PostgreSQL** (Banco de dados em nuvem via Render)
 - **JUnit 5** (Testes automatizados)
 - **GitHub Actions** (Integração Contínua)
 - **Checkstyle** (Análise estática de código)
 - **API ViaCEP** (Integração de endereços)
-- **PostgreSQL** (Banco de dados em nuvem via Supabase)
-- **Supabase** (DBaaS — Database as a Service)
+- **Docker** (Containerização para deploy)
+- **Render** (Hospedagem da aplicação e banco de dados)
 
 ## Funcionalidades
-- Cadastro de produtos com ID, Nome, Quantidade Atual e Mínima.
-- Listagem de estoque com alertas visuais [⚠️ REPOR].
-- Persistência em arquivo local (H2 Database).
-- Integração ViaCEP: Busca automática de Logradouro, Bairro e Cidade através do CEP no cadastro de fornecedores.
 
-## Como Rodar o Projeto
+- Cadastro de produtos com Nome, Quantidade Atual e Mínima
+- Listagem de estoque com alertas visuais ⚠️ REPOR / ✅ OK
+- Dashboard com estatísticas de estoque
+- Integração ViaCEP: busca automática de endereço pelo CEP
+- Persistência em banco de dados PostgreSQL na nuvem
+
+## Como Rodar Localmente
+
 1. Clone o repositório:
-   ```bash
-   git clone [https://github.com/dudamarquesst/estoque-agil-mei.git](https://github.com/dudamarquesst/estoque-agil-mei.git)
+```bash
+   git clone https://github.com/dudamarquesst/estoque-agil-mei.git
+```
 
-2. Certifique-se de ter o Java 21 instalado.
+2. Configure as variáveis de ambiente:
+```bash
+   export DB_URL=sua_url_do_banco
+   export DB_USER=seu_usuario
+   export DB_PASS=sua_senha
+```
 
-3. No terminal, execute:
+3. Execute o projeto:
+```bash
+   mvn spring-boot:run
+```
 
-   ```bash
-
-   .\mvnw compile
-
-   .\mvnw exec:java "-Dexec.mainClass=com.estoque.ui.Main"
-
-## Interface do Sistema 
-
-![Interface do Sistema](screenshots/gui_estoque.png)
-
-## Novas Funcionalidades
-
-Integração ViaCEP: Agora o sistema realiza a busca automática de endereços (Logradouro, Bairro e Cidade) ao informar o CEP no cadastro de fornecedores/produtos.
-
-## Banco de Dados
-O sistema utiliza PostgreSQL hospedado no Supabase (nuvem).
-As credenciais de acesso são gerenciadas via variáveis de ambiente
-e GitHub Secrets, garantindo segurança das informações sensíveis.
-
-## Equipe
-| Integrante | GitHub |
-|------------|--------|
-| Duda Marques | @dudamarquesst |
-| Murilo | @jorgemuriloceub |
-| Lucas Gabriel | @LucasGabrielPaes |
-| Miguel | @filemoura |
+4. Acesse em: http://localhost:10000
