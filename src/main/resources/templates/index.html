@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque Ágil MEI</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; padding: 30px; }
+        h1 { color: #3f51b5; margin-bottom: 24px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        th { background: #3f51b5; color: white; padding: 14px; text-align: center; }
+        td { padding: 12px 14px; text-align: center; border-bottom: 1px solid #eee; }
+        tr:hover { background: #f9f9f9; }
+        .ok { color: green; font-weight: bold; }
+        .repor { color: red; font-weight: bold; }
+        .form-card { background: white; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 500px; }
+        .form-card h2 { color: #3f51b5; margin-bottom: 16px; }
+        .form-group { margin-bottom: 14px; }
+        label { display: block; margin-bottom: 4px; font-weight: 600; color: #444; }
+        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; }
+        .btn-primary { background: #3f51b5; color: white; width: 100%; margin-top: 8px; }
+        .btn-secondary { background: #eee; color: #333; }
+        .cep-row { display: flex; gap: 8px; }
+        .cep-row input { flex: 1; }
+        .erro { color: red; margin-top: 8px; }
+    </style>
+</head>
+<body>
+
+    <h1>📦 Estoque Ágil MEI</h1>
+
+    <!-- TABELA DE PRODUTOS -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Produto</th>
+                <th>Qtd Atual</th>
+                <th>Mínimo</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="p : ${produtos}">
+                <td th:text="${p.id}"></td>
+                <td th:text="${p.nome}"></td>
+                <td th:text="${p.quantidadeAtual}"></td>
+                <td th:text="${p.quantidadeMinima}"></td>
+                <td>
+                    <span th:if="${p.estoqueBaixo}" class="repor">⚠️ REPOR</span>
+                    <span th:unless="${p.estoqueBaixo}" class="ok">✅ OK</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- FORMULÁRIO DE CADASTRO -->
+    <div class="form-card">
+        <h2>Adicionar Produto</h2>
+        <form th:action="@{/adicionar}" method="post">
+            <div class="form-group">
+                <label>Nome do Produto</label>
+                <input type="text" name="nome" required placeholder="Ex: Farinha de trigo"/>
+            </div>
+            <div class="form-group">
+                <label>Quantidade Atual</label>
+                <input type="number" name="quantidadeAtual" required min="0"/>
+            </div>
+            <div class="form-group">
+                <label>Quantidade Mínima</label>
+                <input type="number" name="quantidadeMinima" required min="0"/>
+            </div>
+
+            <hr style="margin: 16px 0; border-color: #eee;">
+            <h3 style="margin-bottom: 12px; color: #555;">Dados do Fornecedor</h3>
+
+            <div class="form-group">
+                <label>CEP</label>
+                <div class="cep-row">
+                    <input type="text" id="cep" name="cep" placeholder="Ex: 01310100" maxlength="8"/>
+                    <button type="button" class="btn btn-secondary" onclick="buscarCep()">Buscar</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Rua</label>
+                <input type="text" id="rua" name="rua" readonly/>
+            </div>
+            <div class="form-group">
+                <label>Bairro</label>
+                <input type="text" id="bairro" name="bairro" readonly/>
+            </div>
+            <div class="form-group">
+                <label>Cidade</label>
+                <input type="text" id="cidade" name="cidade" readonly/>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Cadastrar Produto</button>
+        </form>
+    </div>
+
+    <script>
+        async function buscarCep() {
+            const cep = document.getElementById('cep').value.trim();
+            if (cep.length !== 8) {
+                alert('Informe um CEP válido com 8 dígitos.');
+                return;
+            }
+            try {
+                const resp = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await resp.json();
+                if (data.erro) {
+                    alert('CEP não encontrado.');
+                    return;
+                }
+                document.getElementById('rua').value = data.logradouro || '';
+                document.getElementById('bairro').value = data.bairro || '';
+                document.getElementById('cidade').value = data.localidade || '';
+            } catch (e) {
+                alert('Erro ao buscar CEP.');
+            }
+        }
+    </script>
+
+</body>
+</html>
