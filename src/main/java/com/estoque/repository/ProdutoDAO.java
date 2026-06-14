@@ -92,4 +92,22 @@ public class ProdutoDAO {
             e.printStackTrace();
         }
     }
+
+    public void deletar(int id) {
+
+        String sql = "DELETE FROM produtos WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
 }
