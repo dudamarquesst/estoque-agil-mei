@@ -20,7 +20,11 @@ public class ProdutoController {
     @GetMapping("/")
     public String index(Model model) {
         List<Produto> produtos = dao.listarTodos();
+        long totalOk = produtos.stream().filter(p -> !p.isEstoqueBaixo()).count();
+        long totalRepor = produtos.stream().filter(p -> p.isEstoqueBaixo()).count();
         model.addAttribute("produtos", produtos);
+        model.addAttribute("totalOk", totalOk);
+        model.addAttribute("totalRepor", totalRepor);
         return "index";
     }
 
