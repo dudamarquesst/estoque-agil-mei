@@ -141,11 +141,11 @@
         </div>
         <div class="stat-card ok">
             <div class="stat-label">Estoque OK</div>
-            <div class="stat-value" th:text="${produtos.stream().filter(p -> !p.estoqueBaixo).count()}">0</div>
+            <div class="stat-value" th:text="${totalOk}">0</div>
         </div>
         <div class="stat-card alerta">
             <div class="stat-label">Repor Estoque</div>
-            <div class="stat-value" th:text="${produtos.stream().filter(p -> p.estoqueBaixo).count()}">0</div>
+            <div class="stat-value" th:text="${totalRepor}">0</div>
         </div>
     </div>
 
